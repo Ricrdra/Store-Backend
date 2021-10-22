@@ -1,0 +1,7 @@
+module.exports = {
+    //Where is db connection
+    'config': './db/config.js',
+    'models-path': './db/models/',
+    'migrations-path': './db/migrations/',
+    'migrations-seeders': './db/seeders/',
+}
