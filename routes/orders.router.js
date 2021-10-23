@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const OrderService = require("./../services/order.service");
 const validatorHandler = require("../middlewares/validator.handler");
-const { getOrderSchema } = require("./../schemas/order.schema");
+const { getOrderSchema, addItemSchema } = require("./../schemas/order.schema");
 const service = new OrderService();
 
 // routes get for orders
@@ -18,7 +18,8 @@ router.get("/", async(req, res, next) => {
 
 router.get("/:id", async(req, res, next) => {
     try {
-        const order = await service.findOne(req.params.id);
+        const { id } = req.params;
+        const order = await service.findOne(id);
         res.status(201).json(order);
     } catch (e) {
         next(e);
@@ -71,5 +72,17 @@ router.delete(
         }
     }
 );
+
+
+router.post("/add-item", validatorHandler(addItemSchema, "body"), async(req, res, next) => {
+    try {
+        const body = req.body;
+        const item = await service.addItem(body);
+
+        res.status(201).json(item);
+    } catch (error) {
+        next(error);
+    }
+});
 
 module.exports = router;

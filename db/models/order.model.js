@@ -26,6 +26,18 @@ const OrderSchema = {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
     },
+    total: {
+        type: DataTypes.VIRTUAL,
+        get() {
+            if (this.items.length > 0) {
+                // calculate total price of all products in a cart
+                return this.items.reduce((total, item) => {
+                    return total + (item.price * item.OrderProduct.amount);
+                }, 0);
+            }
+            return 0;
+        }
+    }
 }
 
 
@@ -40,8 +52,8 @@ class Order extends Model {
         this.belongsToMany(models.Product, {
             as: "items",
             through: models.OrderProduct,
-            foreignKey: 'productId',
-            otherKey: 'orderId',
+            foreignKey: 'orderId',
+            otherKey: 'productId',
         });
     }
 
