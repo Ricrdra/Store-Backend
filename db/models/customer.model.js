@@ -1,10 +1,8 @@
 //Import required packages:
-const {Model, DataTypes, Sequelize} = require("sequelize");
-const {USER_TABLE} = require('./user.model.js')
-const {Order} = require("./order.model")
-//Const which stores table name
+const { Model, DataTypes, Sequelize } = require("sequelize");
+const { USER_TABLE } = require('./user.model.js')
+    //Const which stores table name
 const CUSTOMER_TABLE = 'customers';
-
 //Config model schema --> <modelName>Schema
 const CustomerSchema = {
     id: {
@@ -16,14 +14,16 @@ const CustomerSchema = {
     name: {
         allowNull: false,
         type: DataTypes.STRING,
-    }, lastName: {
+    },
+    lastName: {
         allowNull: true,
         type: DataTypes.STRING,
     },
     phone: {
         allowNull: true,
         type: DataTypes.STRING,
-    }, createdAt: {
+    },
+    createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
         field: 'create_at',
@@ -52,11 +52,10 @@ class Customer extends Model {
         });
 
 
-        this.belongsTo(models.User,
-            {
-                as: "user",
-                foreignKey: 'user_id'
-            });
+        this.belongsTo(models.User, {
+            as: "user",
+            foreignKey: 'user_id'
+        });
 
 
     }
@@ -73,4 +72,4 @@ class Customer extends Model {
     }
 }
 
-module.exports = {Customer, CUSTOMER_TABLE, CustomerSchema};
+module.exports = { Customer, CUSTOMER_TABLE, CustomerSchema };
