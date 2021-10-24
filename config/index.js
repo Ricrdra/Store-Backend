@@ -8,6 +8,12 @@ const psql = {
     password: encodeURIComponent(process.env.DB_PASSWORD),
     database: process.env.DB_NAME,
 }
+
+const production = {
+    isProd: process.env.NODE_ENV === 'production',
+    dbUrl: process.env.DB_URL,
+}
+
 const mysql = {
     database: process.env.MYSQL_DB,
     user: process.env.MYSQL_USER,
@@ -20,4 +26,4 @@ const server = {
 };
 
 
-module.exports = {server, psql, mysql};
+module.exports = { server, psql, mysql, production };

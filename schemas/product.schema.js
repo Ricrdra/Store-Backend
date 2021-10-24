@@ -11,6 +11,7 @@ const limit = Joi.number().integer();
 const offset = Joi.number().integer();
 
 
+// eslint-disable-next-line no-unused-vars
 const price_max = Joi.number().integer();
 const price_min = Joi.number().integer();
 
@@ -19,8 +20,8 @@ const queryProductSchema = Joi.object({
     offset,
     price,
     price_min,
-    price_max: price_max.when('price_min', {
-        is: Joi.number().integer(),
+    price_max: Joi.alternatives('price_min', {
+        is: Joi.number(),
         then: Joi.required(),
     }),
 })

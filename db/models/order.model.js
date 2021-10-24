@@ -26,18 +26,17 @@ const OrderSchema = {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
     },
-    total: {
+    /* total: {
         type: DataTypes.VIRTUAL,
         get() {
             if (this.items.length > 0) {
-                // calculate total price of all products in a cart
                 return this.items.reduce((total, item) => {
                     return total + (item.price * item.OrderProduct.amount);
                 }, 0);
             }
             return 0;
         }
-    }
+    } */
 }
 
 

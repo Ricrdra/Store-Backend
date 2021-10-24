@@ -3,13 +3,19 @@ const config = require("./../config/index");
 // const PASSWORD = encodeURIComponent(config.mysql.password);
 const URI = `postgres://${config.psql.user}:${config.psql.password}@${config.psql.host}:${config.psql.port}/${config.psql.database}`;
 
+
+
+
 module.exports = {
     development: {
         url: URI,
         dialect: 'postgres',
     },
     production: {
-        url: URI,
+        url: config.production.dbUrl,
         dialect: 'postgres',
+        ssl: {
+            rejectUnauthorized: false
+        }
     }
 }
