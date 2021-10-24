@@ -21,7 +21,7 @@ if (config.production.isProd) {
 
 
 } else {
-    URI = `postgres://${config.psql.user}:${config.psql.password}@${config.psql.host}:${config.psql.port}/${config.psql.database}`;
+    URI = config.production.dbUrl;
     options.logging = true;
 
 }
