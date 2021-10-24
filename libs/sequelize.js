@@ -13,9 +13,13 @@ let options = {
 if (config.production.isProd) {
     URI = config.production.dbUrl
     options.logging = false;
-    options.ssl = {
-        rejectUnauthorized: false
+    options.dialectOptions = {
+        ssl: {
+            rejectUnauthorized: false
+        }
     }
+
+
 } else {
     URI = `postgres://${config.psql.user}:${config.psql.password}@${config.psql.host}:${config.psql.port}/${config.psql.database}`;
     options.logging = true;
