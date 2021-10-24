@@ -1,12 +1,11 @@
 /*Server basics*/
-const config = require("./config/index");
 const express = require('express');
 const routerApi = require('./routes');
 /*Middlewares*/
 const { logErrors, errorHandler, boomErrorHandler, queryErrorHandler } = require('./middlewares/error.handler');
 
 const app = express();
-const port = config.server.port;
+const port = process.env.PORT || 3000;
 app.use(express.json());
 
 
