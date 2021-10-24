@@ -11,7 +11,7 @@ const psql = {
 
 const production = {
     isProd: process.env.NODE_ENV === 'production',
-    dbUrl: process.env.DB_URL,
+    dbUrl: process.env.DATABASE_URL,
 }
 
 const mysql = {
