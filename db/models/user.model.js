@@ -1,7 +1,7 @@
 //Import required packages:
-const {Model, DataTypes, Sequelize} = require("sequelize");
+const { Model, DataTypes, Sequelize } = require("sequelize");
 //Const which stores table name
-
+const bcrypt = require("bcrypt");
 const USER_TABLE = 'users';
 //Config model schema --> <modelName>Schema
 
@@ -51,9 +51,15 @@ class User extends Model {
             sequelize,
             tableName: USER_TABLE,
             modelName: 'User',
-            timestamps: false
+            timestamps: false,
+            hooks: {
+                beforeCreate: async(user) => {
+                    const password = await bcrypt.hash(user.password, 10);
+                    user.password = password;
+                },
+            }
         }
     }
 }
 
-module.exports = {User, USER_TABLE, UserSchema};
+module.exports = { User, USER_TABLE, UserSchema };

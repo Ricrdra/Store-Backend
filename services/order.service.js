@@ -1,12 +1,14 @@
 const { models } = require("../libs/sequelize");
 const boom = require("@hapi/boom");
 
+const userService = require("./user.service")
+const service = new userService();
 class OrderService {
 
-    constructor() {}
-    async create(data) {
-
-        return models.Order.create(data);
+    async createFromProfile(data) {
+        const user = await service.findOne(data.id);
+        const customerId = user.customer.id;
+        return models.Order.create({ customerId });
     }
 
     async find() {
@@ -23,6 +25,20 @@ class OrderService {
             ]
         });
         return order;
+    }
+
+
+    async findByUser(id) {
+        return await models.Order.findAll({
+            include: [{
+                association: 'customer',
+                include: ['user']
+
+            }],
+            where: {
+                "$customer.user.id$": id
+            }
+        });
     }
 
 

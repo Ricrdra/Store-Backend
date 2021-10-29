@@ -1,4 +1,4 @@
-const {ValidationError} = require("joi");
+const { ValidationError } = require("joi");
 
 function logErrors(err, req, res, next) {
     console.error(err);
@@ -14,7 +14,7 @@ function errorHandler(err, req, res, next) {
 
 function boomErrorHandler(err, req, res, next) {
     if (err.isBoom) {
-        const {output} = err;
+        const { output } = err;
         res.status(output.statusCode).json(output.payload);
     }
     next(err);
@@ -33,4 +33,4 @@ function queryErrorHandler(err, req, res, next) {
 }
 
 
-module.exports = {logErrors, errorHandler, boomErrorHandler, queryErrorHandler}
+module.exports = { logErrors, errorHandler, boomErrorHandler, queryErrorHandler }

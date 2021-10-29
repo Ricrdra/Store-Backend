@@ -1,4 +1,4 @@
-const {createUserSchema, updateUserSchema} = require('./user.schema');
+const { createUserSchema, updateUserSchema } = require('./user.schema');
 
 const Joi = require('joi');
 
@@ -28,4 +28,4 @@ const getCustomerSchema = Joi.object({
     id: id.required(),
 });
 
-module.exports = {createCustomerSchema, updateCustomerSchema, getCustomerSchema}
+module.exports = { createCustomerSchema, updateCustomerSchema, getCustomerSchema }

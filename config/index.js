@@ -18,12 +18,16 @@ const mysql = {
     database: process.env.MYSQL_DB,
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
-    port: process.env.MYSQL_PORT | 3306
+    port: process.env.MYSQL_PORT || 3306
 }
 
 const server = {
     port: process.env.PORT,
+    apiKey: process.env.API_KEY,
 };
 
+const auth = {
+    jwtSecret: process.env.JWT_SECRET,
+}
 
-module.exports = { server, psql, mysql, production };
+module.exports = { server, psql, mysql, production, auth };
