@@ -30,4 +30,9 @@ const auth = {
     jwtSecret: process.env.JWT_SECRET,
 }
 
-module.exports = { server, psql, mysql, production, auth };
+const email = {
+    email: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD
+}
+
+module.exports = { server, psql, mysql, production, auth, email };

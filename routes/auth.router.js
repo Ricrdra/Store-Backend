@@ -1,23 +1,32 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
-const config = require('../config/index.js');
+const Service = require('../services/auth.service');
+const Auth = new Service();
+
 
 router.post('/login',
     //We are using the local strategy and not using sessions
     passport.authenticate('local', { session: false }), async(req, res, next) => {
         try {
-            const user = req.user;
-            const payload = {
-                sub: user.id,
-                role: user.role
-            }
 
-            const token = jwt.sign(payload, config.auth.jwtSecret);
+            const user = req.user
+            const token = Auth.signToken(user);
 
             res.json({ user, token });
 
+        } catch (err) {
+            next(err);
+        }
+    }
+);
+router.post('/recovery',
+    //We are using the local strategy and not using sessions
+    async(req, res, next) => {
+        try {
+            const { email } = req.body;
+            const message = await Auth.sendMail(email);
+            res.json(message)
         } catch (err) {
             next(err);
         }
