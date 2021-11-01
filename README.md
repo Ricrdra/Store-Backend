@@ -40,6 +40,8 @@ ___
 - Nodejs
     - Sequelize
     - Express js
+    - Passport js
+    - JWT
 - Postgresql
 - Deployment-> Heroku
 
