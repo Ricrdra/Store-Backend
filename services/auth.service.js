@@ -33,14 +33,34 @@ class AuthService {
         const token = await jwt.sign(payload, config.auth.jwtSecret);
         return token;
     }
-    async sendMail(email) {
+
+    async sendRecovery(email) {
         const user = await service.findByMail(email);
+
+
 
         if (!user) {
             //return error and it wont be authenticated
             throw boom.unauthorized();
         }
+        const payload = {
+            sub: user.id,
+        }
+        const token = await jwt.sign(payload, config.auth.jwtSecret, { expiresIn: '15min' });
+        const link = `https://front.com/recovery?token=${token}`
 
+        service.update(user.id, { recoveryToken: token });
+        const mail = {
+            from: '26richardr@gmail.com', // sender address
+            to: email, // list of receivers
+            subject: "Password Restore", // Subject line
+            text: "Hello world?", // plain text body
+            html: `<b>Click on link to reset password <a>${link}</a></b>`, //, // html body
+        }
+        await this.sendMail(mail);
+    }
+
+    async sendMail(infoMail) {
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             secure: true,
@@ -52,16 +72,27 @@ class AuthService {
         });
 
         // send mail with defined transport object
-        await transporter.sendMail({
-            from: '26richardr@gmail.com', // sender address
-            to: email, // list of receivers
-            subject: "Hello ✔", // Subject line
-            text: "Hello world?", // plain text body
-            html: "<b>Hello world?</b>", // html body
-        });
+        await transporter.sendMail(infoMail);
 
         return { message: 'Mail successfully sent' }
     }
+
+    async changePassword(token, password) {
+        try {
+            const payload = await jwt.verify(token, config.auth.jwtSecret);
+            const user = await service.findOne(payload.sub);
+            if (!user || user.recoveryToken !== token) {
+                throw boom.unauthorized();
+            }
+
+            const hash = await bcrypt.hashSync(password, 10);
+            await service.update(user.id, { password: hash, recoveryToken: null });
+            return { message: 'Password successfully changed' };
+        } catch (err) {
+            throw boom.unauthorized();
+        }
+    }
+
 
 }
 

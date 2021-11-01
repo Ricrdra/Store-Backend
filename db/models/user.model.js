@@ -21,6 +21,11 @@ const UserSchema = {
         allowNull: false,
         type: DataTypes.STRING,
     },
+    recoveryToken: {
+        allowNull: true,
+        type: DataTypes.STRING,
+        field: 'recovery_token',
+    },
     role: {
         allowNull: false,
         type: DataTypes.STRING,
@@ -31,7 +36,8 @@ const UserSchema = {
         type: DataTypes.DATE,
         field: 'create_at',
         defaultValue: Sequelize.NOW
-    }
+    },
+
 }
 
 //Class which refers to the model

@@ -25,12 +25,25 @@ router.post('/recovery',
     async(req, res, next) => {
         try {
             const { email } = req.body;
-            const message = await Auth.sendMail(email);
+            const message = await Auth.sendRecovery(email);
             res.json(message)
         } catch (err) {
             next(err);
         }
     }
 );
+
+
+router.post('/change-password',
+    async(req, res, next) => {
+        try {
+            const { password, token } = req.body;
+            const message = await Auth.changePassword(token, password);
+            res.json(message)
+        } catch (err) {
+            next(err);
+        }
+
+    });
 
 module.exports = router;
